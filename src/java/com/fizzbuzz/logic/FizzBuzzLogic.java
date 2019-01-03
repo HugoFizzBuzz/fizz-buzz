@@ -1,6 +1,7 @@
 package com.fizzbuzz.logic;
 
 import com.fizzbuzz.exception.FizzBuzzException;
+import com.fizzbuzz.file.PropertiesLoader;
 import com.fizzbuzz.file.ResultFileWriter;
 import org.apache.log4j.Logger;
 
@@ -18,25 +19,8 @@ public class FizzBuzzLogic {
     private static final String FIZZ_STRING = "fizz";
     private static final String BUZZ_STRING = "buzz";
     
-    /*
-    private final int limit = Integer.parseInt(FileManager.loadProperty("limit"));
-    private final boolean allowNegativeNumbers = Boolean.parseBoolean(FileManager.loadProperty("allowNegativeNumbers"));
-    */
-    private final int limit = 37;
-    private final boolean allowNegativeNumbers = true;
-
-    /**
-     * Main method
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            FizzBuzzLogic fuzz = new FizzBuzzLogic();   
-            System.out.println(fuzz.getFizzBuzzList("5"));
-        } catch (FizzBuzzException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
+    private final int limit = Integer.parseInt(PropertiesLoader.loadProperty("limit"));
+    private final boolean allowNegativeNumbers = Boolean.parseBoolean(PropertiesLoader.loadProperty("allowNegativeNumbers"));
     
     /*** 
      * Constructor
@@ -53,7 +37,7 @@ public class FizzBuzzLogic {
      */
     public String getFizzBuzzList(String str) throws FizzBuzzException {
         
-        LOGGER.info("Starts getFizzBuzzList method");
+        LOGGER.info("Begins FizzBuzzLogic getFizzBuzzList method");
         
         String fizzBuzzList = "";
         
@@ -77,7 +61,7 @@ public class FizzBuzzLogic {
             throw new FizzBuzzException("Not a number", ex);
         }
         
-        LOGGER.info("Ends getFizzBuzzList method");
+        LOGGER.info("Ends FizzBuzzLogic getFizzBuzzList method");
         
         return fizzBuzzList;
     }
@@ -88,7 +72,7 @@ public class FizzBuzzLogic {
      * @return 
      */
     private String buildFizzBuzzList(int initNum) {
-        LOGGER.info("Starts buildFizzBuzzList method");
+        LOGGER.info("Begins FizzBuzzLogic buildFizzBuzzList method");
                 
         final StringBuffer sb = new StringBuffer();
         
@@ -107,7 +91,7 @@ public class FizzBuzzLogic {
             }
         }
         
-        LOGGER.info("Ends buildFizzBuzzList method");
+        LOGGER.info("Ends FizzBuzzLogic buildFizzBuzzList method");
         
         return sb.toString();
     }
@@ -116,9 +100,14 @@ public class FizzBuzzLogic {
      * Saves the fizzbuzz list to the results file
      * @param fizzBuzzList 
      */
-    private void saveListToResultsFile(String fizzBuzzList) {        
+    private void saveListToResultsFile(String fizzBuzzList) {    
+        
+        LOGGER.info("Begins FizzBuzzLogic saveListToResultsFile method");    
+        
         ResultFileWriter rfw = new ResultFileWriter(fizzBuzzList);
         rfw.run();
+        
+        LOGGER.info("Ends FizzBuzzLogic saveListToResultsFile method");
     }
            
     /**
@@ -127,7 +116,7 @@ public class FizzBuzzLogic {
      * @return true if current number is divisible by three
      */
     public boolean isFizz(int num) {
-        LOGGER.info("isFizz method");
+        LOGGER.info("FizzBuzzLogic isFizz method");
         return (num % FIZZ_MOD) == 0;
     }
     
@@ -137,7 +126,7 @@ public class FizzBuzzLogic {
      * @return true if current number is divisible by five
      */
     public boolean isBuzz(int num) {
-        LOGGER.info("isBuzz method");
+        LOGGER.info("FizzBuzzLogic isBuzz method");
         return (num % BUZZ_MOD) == 0;
     }
     

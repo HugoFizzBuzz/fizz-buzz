@@ -44,6 +44,7 @@ public class FizzBuzzService {
             final FizzBuzzLogic fizzBuzz = new FizzBuzzLogic();
             result = fizzBuzz.getFizzBuzzList(initNum);
         } catch (FizzBuzzException ex) {
+            LOGGER.error(ex);
             result = ex.getMessage();
         }
         return result;

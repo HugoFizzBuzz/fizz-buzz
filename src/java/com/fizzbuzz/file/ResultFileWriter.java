@@ -35,6 +35,8 @@ public class ResultFileWriter implements Runnable {
     @Override
     public void run() {
         
+        LOGGER.info("Begins ResultFileWriter run method");
+        
         FileWriter fileWriter = null;
         PrintWriter pw;
         
@@ -55,5 +57,7 @@ public class ResultFileWriter implements Runnable {
                 LOGGER.error(e2);
             }
         }
+        
+        LOGGER.info("Ends ResultFileWriter run method");
     }
 }
