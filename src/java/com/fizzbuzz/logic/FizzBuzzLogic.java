@@ -48,7 +48,7 @@ public class FizzBuzzLogic {
             final int initNum = Integer.valueOf(str);
             if (initNum > limit) {
                 LOGGER.error("Number bigger than limit");
-                throw new FizzBuzzException("Number bigger than limit");
+                throw new FizzBuzzException("Number bigger than limit ("+limit+")");
             } else if (initNum < 0 && !allowNegativeNumbers) {
                 LOGGER.error("Number must be bigger than zero");
                 throw new FizzBuzzException("Number must be bigger than zero");
