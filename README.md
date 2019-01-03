@@ -1,6 +1,6 @@
 # fizz-buzz
 Fizz Buzz Game
 
-RestAPI URL:
+Local URL:
 http://localhost:8080/FizzBuzz/
 
