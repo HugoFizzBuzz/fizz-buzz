@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FIZZ-BUZZ Drinking Game!</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/styles.css" type="text/css" />
+        <script type="text/javascript">
+            function sendNumber() {
+                window.location.href = "fizzbuzz/"+document.getElementById("initNum").value;
+            }
+        </script>
+    </head>
+    <body>
+        <div>FIZZ-BUZZ Game!</div>
+        <div>
+            <label for="iniNum">Insert initial number:</label> <input type="text" id="initNum" />
+            <input type="button" onclick="sendNumber()" value="Send" />
+        </div>
+    </body>
+</html>
