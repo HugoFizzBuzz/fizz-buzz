@@ -1,6 +1,6 @@
 package com.fizzbuzz.service;
 
-import com.fizzbuzz.exception.CustomException;
+import com.fizzbuzz.exception.FizzBuzzException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -42,8 +42,8 @@ public class FizzBuzzService {
         String result = "";
         try {
             final FizzBuzzLogic fizzBuzz = new FizzBuzzLogic();
-            result = fizzBuzz.getNumList(initNum);
-        } catch (CustomException ex) {
+            result = fizzBuzz.getFizzBuzzList(initNum);
+        } catch (FizzBuzzException ex) {
             result = ex.getMessage();
         }
         return result;

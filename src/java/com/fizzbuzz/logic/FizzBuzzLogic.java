@@ -1,7 +1,7 @@
 package com.fizzbuzz.logic;
 
-import com.fizzbuzz.exception.CustomException;
-import com.fizzbuzz.file.FileManager;
+import com.fizzbuzz.exception.FizzBuzzException;
+import com.fizzbuzz.file.ResultFileWriter;
 import org.apache.log4j.Logger;
 
 /**
@@ -11,8 +11,6 @@ import org.apache.log4j.Logger;
 public class FizzBuzzLogic {
     
     private static final Logger LOGGER = Logger.getLogger(FizzBuzzLogic.class);
-    
-    private static final long serialVersionUID = 7718828513143293558L;
     
     private static final int FIZZ_MOD = 3;
     private static final int BUZZ_MOD = 5;
@@ -34,8 +32,8 @@ public class FizzBuzzLogic {
     public static void main(String[] args) {
         try {
             FizzBuzzLogic fuzz = new FizzBuzzLogic();   
-            System.out.println(fuzz.getNumList("5"));
-        } catch (CustomException ex) {
+            System.out.println(fuzz.getFizzBuzzList("5"));
+        } catch (FizzBuzzException ex) {
             System.err.println(ex.getMessage());
         }
     }
@@ -48,51 +46,79 @@ public class FizzBuzzLogic {
     }
     
     /**
-     * Returns the list of the correct Fizz Buzz serie
+     * Returns the fizz-buzz serie
      * @param str
-     * @return the String list of the correct Fizz Buzz serie
-     * @throws CustomException 
+     * @return the String Fizz Buzz serie
+     * @throws FizzBuzzException 
      */
-    public String getNumList(String str) throws CustomException {
+    public String getFizzBuzzList(String str) throws FizzBuzzException {
         
-        LOGGER.info("Starts fuzz method");
-                
-        final StringBuffer sb = new StringBuffer();
+        LOGGER.info("Starts getFizzBuzzList method");
+        
+        String fizzBuzzList = "";
         
         try {
             if (str == null) {
-                throw new CustomException("Number is null");
+                throw new FizzBuzzException("Number is null");
             }
-            int num = Integer.valueOf(str);
-            if (num > limit) {
-                throw new CustomException("Number bigger than limit");
-            } else if (num < 0 && !allowNegativeNumbers) {
-                throw new CustomException("Number must be bigger than zero");
+            final int initNum = Integer.valueOf(str);
+            if (initNum > limit) {
+                LOGGER.error("Number bigger than limit");
+                throw new FizzBuzzException("Number bigger than limit");
+            } else if (initNum < 0 && !allowNegativeNumbers) {
+                LOGGER.error("Number must be bigger than zero");
+                throw new FizzBuzzException("Number must be bigger than zero");
             } else {
-                for (int i = num;i<limit; i++) {
-                    if (isFizz(i) && isBuzz(i)) {
-                        sb.append(FIZZ_STRING+BUZZ_STRING);
-                    } else if (isFizz(i)) {
-                        sb.append(FIZZ_STRING);
-                    } else if (isBuzz(i)) {
-                        sb.append(BUZZ_STRING);
-                    } else {
-                        sb.append(i);
-                    }
-                    if (i < limit-1) {
-                        sb.append(",");
-                    }
-                }
+                fizzBuzzList = buildFizzBuzzList(initNum);
+                saveListToResultsFile(fizzBuzzList);
             }
         } catch (NumberFormatException ex) {
-            throw new CustomException("Not a number", ex);
+            LOGGER.error("Not a number");
+            throw new FizzBuzzException("Not a number", ex);
         }
         
-        LOGGER.info("Ends fuzz method");
+        LOGGER.info("Ends getFizzBuzzList method");
+        
+        return fizzBuzzList;
+    }
+    
+    /**
+     * Builds the fizz-buzz list
+     * @param initNum
+     * @return 
+     */
+    private String buildFizzBuzzList(int initNum) {
+        LOGGER.info("Starts buildFizzBuzzList method");
                 
-        FileManager.writeToFile(sb.toString());
+        final StringBuffer sb = new StringBuffer();
+        
+        for (int i = initNum;i<limit; i++) {
+            if (isFizz(i) && isBuzz(i)) {
+                sb.append(FIZZ_STRING+BUZZ_STRING);
+            } else if (isFizz(i)) {
+                sb.append(FIZZ_STRING);
+            } else if (isBuzz(i)) {
+                sb.append(BUZZ_STRING);
+            } else {
+                sb.append(i);
+            }
+            if (i < limit-1) {
+                sb.append(",");
+            }
+        }
+        
+        LOGGER.info("Ends buildFizzBuzzList method");
         
         return sb.toString();
+    }
+    
+    /**
+     * Saves the fizzbuzz list to the results file
+     * @param fizzBuzzList 
+     */
+    private void saveListToResultsFile(String fizzBuzzList) {        
+        ResultFileWriter rfw = new ResultFileWriter(fizzBuzzList);
+        rfw.run();
     }
            
     /**
